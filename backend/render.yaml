@@ -1,5 +1,5 @@
 services:
-  # 后端API服务
+  # Backend API Service
   - type: web
     name: mtg-ai-backend
     env: python
@@ -14,7 +14,7 @@ services:
       - key: AIHUBMIX_API_KEY
         sync: false
 
-  # 前端静态网站
+  # Frontend Static Website
   - type: web
     name: mtg-ai-frontend
     env: static
@@ -25,4 +25,3 @@ services:
       - type: rewrite
         source: /*
         destination: /index.html
-
