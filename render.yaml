@@ -3,9 +3,10 @@ services:
   - type: web
     name: mtg-ai-backend
     env: python3
+    runtime: python3
     region: singapore
     plan: free
-    buildCommand: pip install -r backend/requirements.txt
+    buildCommand: pip install -r requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
