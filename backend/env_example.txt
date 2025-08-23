@@ -1,0 +1,10 @@
+# AI服务API密钥
+OPENAI_API_KEY=your_openai_api_key_here
+AIHUBMIX_API_KEY=your_aihubmix_api_key_here
+
+# 服务器配置
+HOST=0.0.0.0
+PORT=8000
+
+# 开发环境配置
+DEBUG=True

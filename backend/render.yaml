@@ -1,0 +1,28 @@
+services:
+  # 后端API服务
+  - type: web
+    name: mtg-ai-backend
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.9.16
+      - key: OPENAI_API_KEY
+        sync: false
+      - key: AIHUBMIX_API_KEY
+        sync: false
+
+  # 前端静态网站
+  - type: web
+    name: mtg-ai-frontend
+    env: static
+    plan: free
+    buildCommand: echo "Static site - no build needed"
+    staticPublishPath: ../frontend
+    routes:
+      - type: rewrite
+        source: /*
+        destination: /index.html
+
