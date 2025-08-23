@@ -5,6 +5,7 @@ A powerful Magic: The Gathering card search application that combines AI-powered
 ## 🌟 Features
 
 ### Core Functionality
+
 - **AI-Powered Search**: Convert natural language queries into Scryfall search syntax using AI models
 - **Multi-Language Support**: Full Chinese and English interface with dynamic language switching
 - **High-Quality Card Display**: Clear card images with detailed information
@@ -12,6 +13,7 @@ A powerful Magic: The Gathering card search application that combines AI-powered
 - **Dark Theme**: Modern dark interface for better user experience
 
 ### Technical Features
+
 - **Separate Frontend/Backend Architecture**: Independent deployment for better scalability
 - **Cloud Deployment**: Fully deployed on Render.com
 - **API Key Management**: Secure local storage of API keys
@@ -21,6 +23,7 @@ A powerful Magic: The Gathering card search application that combines AI-powered
 ## 🏗️ Architecture
 
 ### Project Structure
+
 ```
 MTG-AIsearch/
 ├── mtg-ai-backend/          # FastAPI backend service
@@ -40,6 +43,7 @@ MTG-AIsearch/
 ```
 
 ### Technology Stack
+
 - **Backend**: FastAPI, Python 3.9, Uvicorn
 - **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
 - **AI Integration**: Aihubmix API, OpenAI API
@@ -50,12 +54,14 @@ MTG-AIsearch/
 ## 🚀 Deployment
 
 ### Backend (mtg-ai-backend)
+
 - **Platform**: Render.com Web Service
 - **Environment**: Docker
 - **Region**: Singapore
 - **URL**: https://mtg-ai-backend.onrender.com
 
 ### Frontend (mtg-ai-frontend)
+
 - **Platform**: Render.com Static Site
 - **Region**: Singapore
 - **URL**: https://mtg-ai-frontend.onrender.com
@@ -63,6 +69,7 @@ MTG-AIsearch/
 ## 📋 API Endpoints
 
 ### Core Endpoints
+
 - `GET /` - Health check
 - `GET /health` - Service status
 - `GET /api/models` - Get available AI models
@@ -70,6 +77,7 @@ MTG-AIsearch/
 - `POST /api/search` - Search MTG cards
 
 ### Search Request Format
+
 ```json
 {
   "query": "green creatures with power 4+",
@@ -80,6 +88,7 @@ MTG-AIsearch/
 ```
 
 ### Search Response Format
+
 ```json
 {
   "cards": [
@@ -104,6 +113,7 @@ MTG-AIsearch/
 ## 🔧 Setup and Configuration
 
 ### Prerequisites
+
 - Python 3.9+
 - Node.js (for local development)
 - API keys for AI services (Aihubmix or OpenAI)
@@ -111,6 +121,7 @@ MTG-AIsearch/
 ### Local Development
 
 #### Backend Setup
+
 ```bash
 cd mtg-ai-backend
 python -m venv venv
@@ -120,6 +131,7 @@ uvicorn app.main:app --reload
 ```
 
 #### Frontend Setup
+
 ```bash
 cd mtg-ai-frontend
 npm install
@@ -127,6 +139,7 @@ npx serve build
 ```
 
 ### Environment Variables
+
 ```bash
 # Backend environment variables (set in Render dashboard)
 OPENAI_API_KEY=your-openai-key
@@ -136,18 +149,21 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 ## 🎯 Usage
 
 ### Getting Started
+
 1. Visit the frontend application
 2. Configure your API key in the settings
 3. Enter natural language search queries
 4. Click on cards to view full details on Scryfall
 
 ### Example Queries
+
 - **English**: "red creatures with haste"
 - **Chinese**: "具有敏捷的红色生物"
 - **Complex**: "landfall creatures that win the game"
 - **Color-based**: "blue white control spells"
 
 ### Supported Search Types
+
 - **Card Types**: creatures, instants, sorceries, artifacts, enchantments, planeswalkers, lands
 - **Colors**: white, blue, black, red, green, and combinations
 - **Keywords**: landfall, haste, flying, etc.
@@ -165,14 +181,17 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 ## 🌐 Language Support
 
 ### Interface Languages
+
 - **Chinese (中文)**: Full interface translation
 - **English**: Complete English localization
 
 ### Input Languages
+
 - **Chinese**: Natural language queries in Chinese
 - **English**: Natural language queries in English
 
 ### Dynamic Switching
+
 - Toggle between languages without page reload
 - All UI elements update instantly
 - Search examples adapt to selected language
@@ -180,18 +199,21 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 ## 🎨 UI/UX Features
 
 ### Dark Theme
+
 - Modern dark color scheme
 - High contrast for readability
 - Consistent color palette throughout
 - Hover effects and smooth transitions
 
 ### Card Display
+
 - High-quality card images
 - Clear typography and spacing
 - Clickable cards for Scryfall navigation
 - Responsive grid layout
 
 ### User Experience
+
 - Loading states and progress indicators
 - Error handling with user-friendly messages
 - Keyboard navigation support
@@ -200,6 +222,7 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 ## 🔄 Recent Updates
 
 ### Latest Improvements
+
 - Removed redundant "click to view details" text for cleaner design
 - Enhanced card image quality using normal resolution
 - Improved dark theme color contrast
@@ -209,12 +232,14 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 ## 📈 Performance
 
 ### Optimization Features
+
 - Efficient API calls with proper caching
 - Optimized image loading with fallbacks
 - Minimal bundle size for fast loading
 - CDN delivery for static assets
 
 ### Monitoring
+
 - Health check endpoints for service monitoring
 - Error logging and debugging information
 - Performance metrics tracking
@@ -222,6 +247,7 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 ## 🤝 Contributing
 
 ### Development Workflow
+
 1. Fork the repository
 2. Create a feature branch
 3. Make your changes
@@ -229,6 +255,7 @@ AIHUBMIX_API_KEY=your-aihubmix-key
 5. Submit a pull request
 
 ### Code Standards
+
 - Follow PEP 8 for Python code
 - Use consistent JavaScript formatting
 - Maintain responsive design principles
@@ -248,6 +275,7 @@ This project is open source and available under the MIT License.
 ## 📞 Support
 
 For issues, questions, or contributions:
+
 - Create an issue on GitHub
 - Check the deployment logs on Render.com
 - Review the API documentation for troubleshooting
