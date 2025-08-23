@@ -10,7 +10,7 @@ services:
       python -m pip install --upgrade pip
       pip install --upgrade wheel setuptools
       pip install -r requirements.txt
-    startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
+    startCommand: cd backend && uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
         value: 3.9.16
@@ -20,6 +20,8 @@ services:
         sync: false
       - key: PIP_ONLY_BINARY
         value: ":all:"
+      - key: PYTHONPATH
+        value: "."
 
   # Frontend Static Website
   - type: static
