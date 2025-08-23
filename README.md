@@ -53,11 +53,13 @@ MTG-AIsearch/
 ## Links
 
 ### Repositories
+
 - **Main Project**: https://github.com/ZanderH-code/MTG-AIsearch
 - **Frontend**: https://github.com/ZanderH-code/mtg-ai-frontend
 - **Backend**: https://github.com/ZanderH-code/mtg-ai-backend
 
 ### Live Applications
+
 - **Frontend**: https://mtg-ai-frontend.onrender.com
 - **Backend API**: https://mtg-ai-backend.onrender.com
 
