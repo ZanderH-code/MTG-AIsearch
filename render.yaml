@@ -6,7 +6,10 @@ services:
     runtime: python3
     region: singapore
     plan: free
-    buildCommand: pip install -r requirements.txt
+    buildCommand: |
+      python -m pip install --upgrade pip
+      pip install --upgrade wheel setuptools
+      pip install -r requirements.txt
     startCommand: uvicorn backend.main:app --host 0.0.0.0 --port $PORT
     envVars:
       - key: PYTHON_VERSION
@@ -15,6 +18,8 @@ services:
         sync: false
       - key: AIHUBMIX_API_KEY
         sync: false
+      - key: PIP_ONLY_BINARY
+        value: ":all:"
 
   # Frontend Static Website
   - type: static

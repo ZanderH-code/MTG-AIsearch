@@ -1,1 +1,2 @@
+--only-binary :all:
 -r backend/requirements.txt
