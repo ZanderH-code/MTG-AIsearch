@@ -3,7 +3,9 @@ services:
   - type: web
     name: mtg-ai-backend
     env: python
+    region: singapore
     plan: free
+    rootDir: backend
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
     envVars:
@@ -15,12 +17,13 @@ services:
         sync: false
 
   # Frontend Static Website
-  - type: web
+  - type: static
     name: mtg-ai-frontend
     env: static
+    region: singapore
     plan: free
     buildCommand: echo "Static site - no build needed"
-    staticPublishPath: ../frontend
+    staticPublishPath: frontend
     routes:
       - type: rewrite
         source: /*
