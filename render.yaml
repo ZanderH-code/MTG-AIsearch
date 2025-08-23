@@ -1,20 +1,11 @@
 services:
-  # Backend API Service
   - type: web
     name: mtg-ai-backend
-    env: python3
-    runtime: python3
+    env: docker
     region: singapore
     plan: free
-    rootDir: backend
-    buildCommand: |
-      python -m pip install --upgrade pip
-      pip install --upgrade wheel setuptools
-      pip install -r requirements.txt
-    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /health
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.9.16
       - key: OPENAI_API_KEY
         sync: false
       - key: AIHUBMIX_API_KEY

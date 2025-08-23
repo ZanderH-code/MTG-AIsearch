@@ -1,0 +1,13 @@
+{
+  "name": "mtg-ai-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for MTG AI Search",
+  "scripts": {
+    "start": "serve -s .",
+    "build": "echo 'No build step needed'"
+  },
+  "dependencies": {
+    "serve": "^14.2.1"
+  }
+}
+

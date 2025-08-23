@@ -1,6 +1,6 @@
 from fastapi import FastAPI, HTTPException, Depends
 from fastapi.middleware.cors import CORSMiddleware
-from pydantic import BaseModel
+from pydantic import BaseModel, ConfigDict
 import httpx
 import os
 from typing import List, Optional
@@ -26,21 +26,25 @@ app.add_middleware(
 
 # 数据模型
 class SearchRequest(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     query: str
     language: str = "zh"  # 支持中文和英文
     api_key: Optional[str] = None  # 可选的API密钥
     model: Optional[str] = None  # 可选的模型名称
 
 class ApiKeyRequest(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     api_key: str
     provider: str = "aihubmix"  # aihubmix 或 openai
     model: Optional[str] = None  # 可选的模型名称
 
 class ModelListRequest(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     api_key: str
     provider: str = "aihubmix"
 
 class Card(BaseModel):
+    model_config = ConfigDict(extra='allow')
     name: str
     mana_cost: Optional[str] = None
     type_line: str
@@ -49,6 +53,7 @@ class Card(BaseModel):
     scryfall_uri: str
 
 class SearchResponse(BaseModel):
+    model_config = ConfigDict(extra='forbid')
     cards: List[Card]
     scryfall_query: str
     total_cards: int
