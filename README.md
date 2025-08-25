@@ -1,86 +1,86 @@
-# 🎴 MTG AI 搜索工具
+# 🎴 MTG AI Search Tool
 
-一个基于AI的万智牌卡牌搜索工具，支持自然语言搜索和智能排序。
+An AI-powered Magic: The Gathering card search tool with natural language search and intelligent sorting.
 
-## ✨ 功能特点
+## ✨ Features
 
-- **🤖 AI智能搜索**：使用自然语言描述搜索卡牌
-- **🌙 深色主题**：现代化的深色界面设计
-- **🌍 多语言支持**：中文和英文界面
-- **📊 智能排序**：支持多种排序方式（名称、稀有度、法力值等）
-- **💡 搜索示例**：提供常用搜索示例
-- **🔗 直接链接**：点击卡牌直接跳转到Scryfall
+- **🤖 AI-Powered Search**: Search cards using natural language descriptions
+- **🌙 Dark Theme**: Modern dark interface design
+- **🌍 Multi-language Support**: Chinese and English interfaces
+- **📊 Smart Sorting**: Multiple sorting options (name, rarity, mana value, etc.)
+- **💡 Search Examples**: Common search examples provided
+- **🔗 Direct Links**: Click cards to jump directly to Scryfall
 
-## 🚀 在线体验
+## 🚀 Live Demo
 
-- **前端应用**：https://mtg-ai-frontend.onrender.com
-- **后端API**：https://mtg-ai-backend.onrender.com
+- **Frontend App**: https://mtg-ai-frontend.onrender.com
+- **Backend API**: https://mtg-ai-backend.onrender.com
 
-## 📁 项目结构
+## 📁 Project Structure
 
 ```
 MTG-AIsearch/
-├── mtg-ai-frontend/    # 前端项目（React/HTML/CSS/JS）
-└── mtg-ai-backend/     # 后端项目（Python FastAPI）
+├── mtg-ai-frontend/    # Frontend project (HTML/CSS/JS)
+└── mtg-ai-backend/     # Backend project (Python FastAPI)
 ```
 
-## 🛠️ 技术栈
+## 🛠️ Tech Stack
 
-### 前端
+### Frontend
 - HTML5 + CSS3 + JavaScript
-- 响应式设计
-- 深色主题UI
+- Responsive design
+- Dark theme UI
 
-### 后端
+### Backend
 - Python FastAPI
-- Scryfall API 集成
-- OpenAI/AIHubMix API 支持
+- Scryfall API integration
+- OpenAI/AIHubMix API support
 
-## 🔧 本地开发
+## 🔧 Local Development
 
-### 前端开发
+### Frontend Development
 ```bash
 cd mtg-ai-frontend
-# 前端是静态文件，直接打开 build/index.html 即可
+# Frontend is static files, just open build/index.html
 ```
 
-### 后端开发
+### Backend Development
 ```bash
 cd mtg-ai-backend
 pip install -r requirements.txt
 uvicorn app.main:app --reload
 ```
 
-## 📖 使用示例
+## 📖 Usage Examples
 
-### 搜索示例
-- "绿色生物" → 搜索绿色生物卡牌
-- "红色烧牌" → 搜索红色伤害法术
-- "艾斯波控制" → 搜索艾斯波色组的控制卡牌
-- "力量大于4的生物" → 搜索力量大于4的生物
+### Search Examples
+- "green creatures" → Search for green creature cards
+- "red burn spells" → Search for red damage spells
+- "esper control" → Search for Esper color control cards
+- "creatures with power 4+" → Search for creatures with power 4 or greater
 
-### 排序功能
-- **按名称**：字母顺序排序
-- **按稀有度**：神话 → 稀有 → 非普通 → 普通
-- **按法力值**：按法术力费用排序
-- **按颜色**：按颜色身份排序
-- **按力量/防御力**：按生物属性排序
+### Sorting Features
+- **By Name**: Alphabetical order
+- **By Rarity**: Mythic → Rare → Uncommon → Common
+- **By Mana Value**: Sort by mana cost
+- **By Color**: Sort by color identity
+- **By Power/Toughness**: Sort by creature stats
 
-## 🔑 API配置
+## 🔑 API Configuration
 
-1. 访问前端应用
-2. 点击"设置"按钮
-3. 配置你的AI API密钥（OpenAI或AIHubMix）
-4. 开始使用AI搜索功能
+1. Visit the frontend app
+2. Click the "Settings" button
+3. Configure your AI API key (OpenAI or AIHubMix)
+4. Start using AI search features
 
-## 📝 许可证
+## 📝 License
 
 MIT License
 
-## 🤝 贡献
+## 🤝 Contributing
 
-欢迎提交Issue和Pull Request！
+Issues and Pull Requests are welcome!
 
 ---
 
-**享受你的万智牌搜索体验！** 🎴✨
+**Enjoy your Magic: The Gathering search experience!** 🎴✨
