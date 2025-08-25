@@ -433,14 +433,20 @@
 
       // 更新示例显示
       function updateExamplesDisplay() {
+        console.log("更新示例显示...");
         const exampleList = document.getElementById("exampleList");
         const examples = searchExamples[currentLanguage] || [];
+        
+        console.log("当前语言:", currentLanguage);
+        console.log("当前示例:", examples);
 
         if (examples.length === 0) {
+          console.log("没有示例数据，显示加载中...");
           exampleList.innerHTML = '<div class="loading">加载示例中...</div>';
           return;
         }
 
+        console.log("生成示例HTML...");
         exampleList.innerHTML = examples
           .map(
             (example) => `
@@ -451,6 +457,7 @@
           )
           .join("");
 
+        console.log("重新绑定点击事件...");
         // 重新绑定点击事件
         document.querySelectorAll(".example-item").forEach((item) => {
           item.addEventListener("click", () => {
@@ -458,6 +465,8 @@
             performSearch();
           });
         });
+        
+        console.log("示例更新完成");
       }
 
       // 语言切换
@@ -647,6 +656,7 @@
         updateApiStatus();
 
         // 加载搜索示例
+        console.log("开始加载搜索示例...");
         loadSearchExamples();
       });
 
