@@ -415,10 +415,16 @@
       // 加载搜索示例
       async function loadSearchExamples() {
         try {
+          console.log("开始加载搜索示例...");
           const response = await fetch(`${API_BASE_URL}/api/examples`);
+          console.log("API响应状态:", response.status);
+
           if (response.ok) {
             searchExamples = await response.json();
+            console.log("加载的示例数据:", searchExamples);
             updateExamplesDisplay();
+          } else {
+            console.error("API请求失败:", response.status);
           }
         } catch (error) {
           console.error("加载搜索示例失败:", error);
