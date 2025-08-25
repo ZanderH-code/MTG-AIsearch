@@ -593,7 +593,7 @@
           alert(
             `当前使用: ${provider.toUpperCase()}\n模型: ${
               model || "默认"
-            }\nAPI密钥: ${apiKey.substring(0, 8)}...`
+            }\nAPI密钥: ${apiKey.substring(0, 4)}****${apiKey.substring(apiKey.length - 4)}`
           );
         } else {
           alert("当前使用演示模式，无需API密钥");
