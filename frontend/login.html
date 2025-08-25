@@ -14,28 +14,31 @@
       body {
         font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
           sans-serif;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: #0a0a0a;
         min-height: 100vh;
         padding: 20px;
         display: flex;
         align-items: center;
         justify-content: center;
+        color: #ffffff;
       }
 
       .login-container {
         max-width: 500px;
         width: 100%;
-        background: white;
+        background: #1a1a1a;
         border-radius: 20px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5);
         overflow: hidden;
+        border: 1px solid #333333;
       }
 
       .header {
-        background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+        background: linear-gradient(135deg, #1e3a8a 0%, #3730a3 100%);
         color: white;
         padding: 30px;
         text-align: center;
+        border-bottom: 1px solid #333333;
       }
 
       .header h1 {
@@ -50,6 +53,7 @@
 
       .form-section {
         padding: 40px;
+        background: #1a1a1a;
       }
 
       .form-group {
@@ -60,23 +64,30 @@
         display: block;
         margin-bottom: 8px;
         font-weight: 600;
-        color: #2c3e50;
+        color: #e5e7eb;
       }
 
       .form-group input,
       .form-group select {
         width: 100%;
         padding: 15px;
-        border: 2px solid #e1e8ed;
+        border: 2px solid #374151;
         border-radius: 10px;
         font-size: 16px;
         transition: border-color 0.3s;
+        background: #2d2d2d;
+        color: #ffffff;
       }
 
       .form-group input:focus,
       .form-group select:focus {
         outline: none;
-        border-color: #667eea;
+        border-color: #3b82f6;
+        background: #374151;
+      }
+
+      .form-group input::placeholder {
+        color: #9ca3af;
       }
 
       .api-key-input {
@@ -96,23 +107,24 @@
       }
 
       .btn-primary {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
         color: white;
       }
 
       .btn-primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        box-shadow: 0 5px 15px rgba(59, 130, 246, 0.4);
       }
 
       .btn-secondary {
-        background: #f8f9fa;
-        color: #6c757d;
-        border: 2px solid #e1e8ed;
+        background: #374151;
+        color: #e5e7eb;
+        border: 2px solid #4b5563;
       }
 
       .btn-secondary:hover {
-        background: #e9ecef;
+        background: #4b5563;
+        border-color: #6b7280;
       }
 
       .btn:disabled {
@@ -122,28 +134,28 @@
       }
 
       .info-box {
-        background: #f8f9fa;
-        border: 1px solid #e1e8ed;
+        background: #2d2d2d;
+        border: 1px solid #374151;
         border-radius: 10px;
         padding: 20px;
         margin-bottom: 25px;
       }
 
       .info-box h3 {
-        color: #2c3e50;
+        color: #e5e7eb;
         margin-bottom: 10px;
         font-size: 1.1rem;
       }
 
       .info-box p {
-        color: #6c757d;
+        color: #d1d5db;
         line-height: 1.6;
         margin-bottom: 10px;
       }
 
       .info-box ul {
         margin-left: 20px;
-        color: #6c757d;
+        color: #d1d5db;
       }
 
       .info-box li {
@@ -158,21 +170,21 @@
       }
 
       .status-success {
-        background: #d4edda;
-        color: #155724;
-        border: 1px solid #c3e6cb;
+        background: #065f46;
+        color: #d1fae5;
+        border: 1px solid #047857;
       }
 
       .status-error {
-        background: #f8d7da;
-        color: #721c24;
-        border: 1px solid #f5c6cb;
+        background: #7f1d1d;
+        color: #fecaca;
+        border: 1px solid #dc2626;
       }
 
       .demo-mode {
-        background: #fff3cd;
-        color: #856404;
-        border: 1px solid #ffeaa7;
+        background: #451a03;
+        color: #fed7aa;
+        border: 1px solid #ea580c;
         padding: 15px;
         border-radius: 10px;
         margin-bottom: 20px;
@@ -180,27 +192,30 @@
       }
 
       .link {
-        color: #667eea;
+        color: #3b82f6;
         text-decoration: none;
       }
 
       .link:hover {
         text-decoration: underline;
+        color: #60a5fa;
       }
 
       .btn-refresh {
         margin-top: 10px;
         padding: 8px 16px;
-        background: #f8f9fa;
-        border: 1px solid #e1e8ed;
+        background: #374151;
+        border: 1px solid #4b5563;
         border-radius: 6px;
         cursor: pointer;
         font-size: 14px;
         transition: all 0.3s;
+        color: #e5e7eb;
       }
 
       .btn-refresh:hover {
-        background: #e9ecef;
+        background: #4b5563;
+        border-color: #6b7280;
       }
 
       @media (max-width: 768px) {
@@ -225,27 +240,32 @@
   <body>
     <div class="login-container">
       <div class="header">
-        <h1>🔑 API密钥设置</h1>
-        <p>配置您的AI服务密钥以获得更好的搜索体验</p>
+        <div class="language-toggle" style="text-align: right; margin-bottom: 15px;">
+          <button class="lang-btn active" data-lang="zh" style="background: #3b82f6; color: white; border: none; padding: 8px 16px; border-radius: 6px; margin-left: 10px; cursor: pointer;">中文</button>
+          <button class="lang-btn" data-lang="en" style="background: #2d2d2d; color: #e5e7eb; border: 1px solid #374151; padding: 8px 16px; border-radius: 6px; margin-left: 10px; cursor: pointer;">English</button>
+        </div>
+        <h1 id="pageTitle">🔑 API密钥设置</h1>
+        <p id="pageSubtitle">配置您的AI服务密钥以获得更好的搜索体验</p>
       </div>
 
       <div class="form-section">
-        <div class="demo-mode">
+        <div class="demo-mode" id="demoMode">
           <strong>💡 提示：</strong> 您也可以直接使用演示模式，无需API密钥
         </div>
 
         <div class="info-box">
-          <h3>🤖 支持的AI服务</h3>
-          <p>我们支持以下AI服务提供商：</p>
+          <h3 id="supportedServicesTitle">🤖 支持的AI服务</h3>
+          <p id="supportedServicesDesc">我们支持以下AI服务提供商：</p>
           <ul>
-            <li><strong>Aihubmix</strong> - 推荐，大陆用户直连使用</li>
-            <li><strong>OpenAI</strong> - 需要网络代理</li>
+            <li><strong>Aihubmix</strong> - <span id="aihubmixDesc">推荐，大陆用户直连使用</span></li>
+            <li><strong>OpenAI</strong> - <span id="openaiDesc">需要网络代理</span></li>
           </ul>
           <p>
             <a
               href="https://docs.aihubmix.com/cn/api/Aihubmix-Integration"
               target="_blank"
               class="link"
+              id="apiDocLink"
               >📖 查看Aihubmix API文档</a
             >
           </p>
@@ -255,7 +275,7 @@
 
         <form id="apiKeyForm">
           <div class="form-group">
-            <label for="provider">AI服务提供商</label>
+            <label for="provider" id="providerLabel">AI服务提供商</label>
             <select id="provider" name="provider">
               <option value="aihubmix">Aihubmix (推荐)</option>
               <option value="openai">OpenAI</option>
@@ -263,9 +283,9 @@
           </div>
 
           <div class="form-group">
-            <label for="model">AI模型</label>
+            <label for="model" id="modelLabel">AI模型</label>
             <select id="model" name="model">
-              <option value="">请先选择提供商并输入API密钥</option>
+              <option value="" id="modelPlaceholder">请先选择提供商并输入API密钥</option>
             </select>
             <button
               type="button"
@@ -273,12 +293,12 @@
               class="btn-refresh"
               style="display: none"
             >
-              🔄 刷新模型列表
+              🔄 <span id="refreshText">刷新模型列表</span>
             </button>
           </div>
 
           <div class="form-group">
-            <label for="apiKey">API密钥</label>
+            <label for="apiKey" id="apiKeyLabel">API密钥</label>
             <input
               type="password"
               id="apiKey"
@@ -290,19 +310,115 @@
           </div>
 
           <button type="submit" class="btn btn-primary" id="validateBtn">
-            验证并保存
+            <span id="validateText">验证并保存</span>
           </button>
         </form>
 
-        <button class="btn btn-secondary" id="demoBtn">使用演示模式</button>
+        <button class="btn btn-secondary" id="demoBtn">
+          <span id="demoText">使用演示模式</span>
+        </button>
       </div>
     </div>
 
     <script>
-             // 根据环境自动选择API地址
-       const API_BASE_URL = window.location.hostname === 'localhost' 
-         ? "http://localhost:8000" 
-         : "https://mtg-ai-backend.onrender.com";
+      // 连接到云端后端API
+      const API_BASE_URL = "https://mtg-ai-backend.onrender.com";
+
+      // 语言配置
+      const translations = {
+        zh: {
+          pageTitle: "🔑 API密钥设置",
+          pageSubtitle: "配置您的AI服务密钥以获得更好的搜索体验",
+          demoMode: "💡 提示： 您也可以直接使用演示模式，无需API密钥",
+          supportedServicesTitle: "🤖 支持的AI服务",
+          supportedServicesDesc: "我们支持以下AI服务提供商：",
+          aihubmixDesc: "推荐，大陆用户直连使用",
+          openaiDesc: "需要网络代理",
+          apiDocLink: "📖 查看Aihubmix API文档",
+          providerLabel: "AI服务提供商",
+          modelLabel: "AI模型",
+          modelPlaceholder: "请先选择提供商并输入API密钥",
+          refreshText: "刷新模型列表",
+          apiKeyLabel: "API密钥",
+          apiKeyPlaceholder: "请输入您的API密钥",
+          validateText: "验证并保存",
+          demoText: "使用演示模式",
+          validatingText: "验证中...",
+          modelsLoadingText: "正在获取模型列表...",
+          modelsFailedText: "获取模型列表失败",
+          modelsRefreshedText: "模型列表已刷新"
+        },
+        en: {
+          pageTitle: "🔑 API Key Settings",
+          pageSubtitle: "Configure your AI service keys for better search experience",
+          demoMode: "💡 Tip: You can also use demo mode directly without API keys",
+          supportedServicesTitle: "🤖 Supported AI Services",
+          supportedServicesDesc: "We support the following AI service providers:",
+          aihubmixDesc: "Recommended, direct connection for mainland users",
+          openaiDesc: "Requires network proxy",
+          apiDocLink: "📖 View Aihubmix API Documentation",
+          providerLabel: "AI Service Provider",
+          modelLabel: "AI Model",
+          modelPlaceholder: "Please select provider and enter API key first",
+          refreshText: "Refresh Model List",
+          apiKeyLabel: "API Key",
+          apiKeyPlaceholder: "Please enter your API key",
+          validateText: "Validate & Save",
+          demoText: "Use Demo Mode",
+          validatingText: "Validating...",
+          modelsLoadingText: "Loading model list...",
+          modelsFailedText: "Failed to load model list",
+          modelsRefreshedText: "Model list refreshed"
+        }
+      };
+
+      let currentLanguage = "zh";
+
+      // 语言切换功能
+      function switchLanguage(lang) {
+        currentLanguage = lang;
+        
+        // 更新按钮样式
+        document.querySelectorAll('.lang-btn').forEach(btn => {
+          btn.classList.remove('active');
+          if (btn.dataset.lang === lang) {
+            btn.classList.add('active');
+            btn.style.background = '#3b82f6';
+            btn.style.color = 'white';
+            btn.style.border = 'none';
+          } else {
+            btn.style.background = '#2d2d2d';
+            btn.style.color = '#e5e7eb';
+            btn.style.border = '1px solid #374151';
+          }
+        });
+
+        // 更新页面文本
+        const t = translations[lang];
+        document.getElementById('pageTitle').textContent = t.pageTitle;
+        document.getElementById('pageSubtitle').textContent = t.pageSubtitle;
+        document.getElementById('demoMode').innerHTML = `<strong>${t.demoMode}</strong>`;
+        document.getElementById('supportedServicesTitle').textContent = t.supportedServicesTitle;
+        document.getElementById('supportedServicesDesc').textContent = t.supportedServicesDesc;
+        document.getElementById('aihubmixDesc').textContent = t.aihubmixDesc;
+        document.getElementById('openaiDesc').textContent = t.openaiDesc;
+        document.getElementById('apiDocLink').textContent = t.apiDocLink;
+        document.getElementById('providerLabel').textContent = t.providerLabel;
+        document.getElementById('modelLabel').textContent = t.modelLabel;
+        document.getElementById('modelPlaceholder').textContent = t.modelPlaceholder;
+        document.getElementById('refreshText').textContent = t.refreshText;
+        document.getElementById('apiKeyLabel').textContent = t.apiKeyLabel;
+        document.getElementById('apiKey').placeholder = t.apiKeyPlaceholder;
+        document.getElementById('validateText').textContent = t.validateText;
+        document.getElementById('demoText').textContent = t.demoText;
+      }
+
+      // 语言切换按钮事件
+      document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          switchLanguage(btn.dataset.lang);
+        });
+      });
 
       // 显示状态消息
       function showStatus(message, type = "success") {
@@ -321,14 +437,10 @@
       async function getModels(apiKey, provider) {
         try {
           const response = await fetch(`${API_BASE_URL}/api/models`, {
-            method: "POST",
+            method: "GET",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({
-              api_key: apiKey,
-              provider: provider,
-            }),
           });
 
           const result = await response.json();
@@ -389,13 +501,15 @@
           const validateBtn = document.getElementById("validateBtn");
 
           if (!apiKey) {
-            showStatus("请输入API密钥", "error");
+            const t = translations[currentLanguage];
+            showStatus(t.apiKeyPlaceholder, "error");
             return;
           }
 
           // 显示加载状态
           validateBtn.disabled = true;
-          validateBtn.textContent = "验证中...";
+          const t = translations[currentLanguage];
+          validateBtn.textContent = t.validatingText;
 
           try {
             const result = await validateApiKey(apiKey, provider, model);
@@ -415,7 +529,8 @@
             showStatus("验证过程中发生错误", "error");
           } finally {
             validateBtn.disabled = false;
-            validateBtn.textContent = "验证并保存";
+            const t = translations[currentLanguage];
+            validateBtn.textContent = t.validateText;
           }
         });
 
@@ -423,15 +538,15 @@
       async function loadModels(apiKey, provider) {
         const modelSelect = document.getElementById("model");
         const refreshBtn = document.getElementById("refreshModelsBtn");
+        const t = translations[currentLanguage];
 
         if (!apiKey || !provider) {
-          modelSelect.innerHTML =
-            '<option value="">请先选择提供商并输入API密钥</option>';
+          modelSelect.innerHTML = `<option value="">${t.modelPlaceholder}</option>`;
           refreshBtn.style.display = "none";
           return;
         }
 
-        modelSelect.innerHTML = '<option value="">正在获取模型列表...</option>';
+        modelSelect.innerHTML = `<option value="">${t.modelsLoadingText}</option>`;
         refreshBtn.style.display = "none";
 
         const result = await getModels(apiKey, provider);
@@ -446,7 +561,7 @@
           });
           refreshBtn.style.display = "inline-block";
         } else {
-          modelSelect.innerHTML = '<option value="">获取模型列表失败</option>';
+          modelSelect.innerHTML = `<option value="">${t.modelsFailedText}</option>`;
         }
       }
 
@@ -468,16 +583,17 @@
       });
 
       // 刷新模型列表按钮
-      document
-        .getElementById("refreshModelsBtn")
-        .addEventListener("click", async () => {
-          const apiKey = document.getElementById("apiKey").value.trim();
-          const provider = document.getElementById("provider").value;
-          if (apiKey && provider) {
-            await loadModels(apiKey, provider);
-            showStatus("模型列表已刷新", "success");
-          }
-        });
+              document
+          .getElementById("refreshModelsBtn")
+          .addEventListener("click", async () => {
+            const apiKey = document.getElementById("apiKey").value.trim();
+            const provider = document.getElementById("provider").value;
+            if (apiKey && provider) {
+              await loadModels(apiKey, provider);
+              const t = translations[currentLanguage];
+              showStatus(t.modelsRefreshedText, "success");
+            }
+          });
 
       // 演示模式按钮
       document.getElementById("demoBtn").addEventListener("click", () => {

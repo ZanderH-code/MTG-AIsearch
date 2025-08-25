@@ -3,12 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta
-      http-equiv="Cache-Control"
-      content="no-cache, no-store, must-revalidate"
-    />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="Expires" content="0" />
     <title>MTG AI 搜索工具</title>
     <style>
       * {
@@ -536,7 +530,77 @@
         <div class="example-queries">
           <h3 id="examplesTitle">💡 搜索示例</h3>
           <div class="example-list" id="exampleList">
-            <div class="loading">加载示例中...</div>
+            <!-- 中文示例 -->
+            <div class="example-item zh-example" data-query="快攻套牌的小兵">
+              快攻套牌的小兵
+            </div>
+            <div
+              class="example-item zh-example"
+              data-query="控制套牌的清场法术"
+            >
+              控制套牌的清场法术
+            </div>
+            <div
+              class="example-item zh-example"
+              data-query="具有飞行能力的生物"
+            >
+              具有飞行能力的生物
+            </div>
+            <div
+              class="example-item zh-example"
+              data-query="艾斯波控制套牌的法术"
+            >
+              艾斯波控制套牌的法术
+            </div>
+            <div class="example-item zh-example" data-query="仇恨熊">
+              仇恨熊
+            </div>
+            <div class="example-item zh-example" data-query="组合技的引擎卡">
+              组合技的引擎卡
+            </div>
+            <div class="example-item zh-example" data-query="红色烧牌">
+              红色烧牌
+            </div>
+            <div class="example-item zh-example" data-query="穿透生物">
+              穿透生物
+            </div>
+            <!-- 英文示例 -->
+            <div class="example-item en-example" data-query="aggro deck dorks">
+              aggro deck dorks
+            </div>
+            <div
+              class="example-item en-example"
+              data-query="control deck wraths"
+            >
+              control deck wraths
+            </div>
+            <div
+              class="example-item en-example"
+              data-query="creatures with flying"
+            >
+              creatures with flying
+            </div>
+            <div
+              class="example-item en-example"
+              data-query="esper control spells"
+            >
+              esper control spells
+            </div>
+            <div class="example-item en-example" data-query="hate bears">
+              hate bears
+            </div>
+            <div
+              class="example-item en-example"
+              data-query="combo engine cards"
+            >
+              combo engine cards
+            </div>
+            <div class="example-item en-example" data-query="red burn spells">
+              red burn spells
+            </div>
+            <div class="example-item en-example" data-query="evasion creatures">
+              evasion creatures
+            </div>
           </div>
         </div>
       </div>
@@ -550,82 +614,6 @@
     <script>
       // 连接到云端后端API
       const API_BASE_URL = "https://mtg-ai-backend.onrender.com";
-
-      // 添加版本号避免缓存
-      const VERSION = "1.0.2";
-      console.log("MTG AI Search Tool Version:", VERSION);
-
-      // 动态搜索示例数据
-      let searchExamples = { zh: [], en: [] };
-
-      // 加载搜索示例
-      async function loadSearchExamples() {
-        try {
-          console.log("开始加载搜索示例...");
-          console.log("API地址:", `${API_BASE_URL}/api/examples`);
-
-          const response = await fetch(`${API_BASE_URL}/api/examples`, {
-            method: "GET",
-            headers: {
-              "Cache-Control": "no-cache",
-              Pragma: "no-cache",
-            },
-          });
-          console.log("API响应状态:", response.status);
-
-          if (response.ok) {
-            const data = await response.json();
-            console.log("原始API数据:", data);
-            searchExamples = data;
-            console.log("加载的示例数据:", searchExamples);
-            updateExamplesDisplay();
-          } else {
-            console.error("API请求失败:", response.status);
-            console.error("响应文本:", await response.text());
-          }
-        } catch (error) {
-          console.error("加载搜索示例失败:", error);
-          console.error("错误详情:", error.message);
-        }
-      }
-
-      // 更新示例显示
-      function updateExamplesDisplay() {
-        console.log("更新示例显示...");
-        const exampleList = document.getElementById("exampleList");
-        const examples = searchExamples[currentLanguage] || [];
-
-        console.log("当前语言:", currentLanguage);
-        console.log("当前示例:", examples);
-
-        if (examples.length === 0) {
-          console.log("没有示例数据，显示加载中...");
-          exampleList.innerHTML = '<div class="loading">加载示例中...</div>';
-          return;
-        }
-
-        console.log("生成示例HTML...");
-        exampleList.innerHTML = examples
-          .map(
-            (example) => `
-              <div class="example-item" data-query="${example}">
-                ${example}
-              </div>
-            `
-          )
-          .join("");
-
-        console.log("重新绑定点击事件...");
-        // 重新绑定点击事件
-        document.querySelectorAll(".example-item").forEach((item) => {
-          item.addEventListener("click", () => {
-            document.getElementById("searchInput").value = item.dataset.query;
-            performSearch();
-          });
-        });
-
-        console.log("示例更新完成");
-      }
 
       // 语言配置
       const translations = {
@@ -725,7 +713,16 @@
         });
 
         // 更新搜索示例显示
-        updateExamplesDisplay();
+        const zhExamples = document.querySelectorAll(".zh-example");
+        const enExamples = document.querySelectorAll(".en-example");
+
+        if (lang === "zh") {
+          zhExamples.forEach((item) => (item.style.display = "block"));
+          enExamples.forEach((item) => (item.style.display = "none"));
+        } else {
+          zhExamples.forEach((item) => (item.style.display = "none"));
+          enExamples.forEach((item) => (item.style.display = "block"));
+        }
       }
 
       // 初始化语言显示
@@ -735,6 +732,14 @@
       document.querySelectorAll(".lang-btn").forEach((btn) => {
         btn.addEventListener("click", () => {
           switchLanguage(btn.dataset.lang);
+        });
+      });
+
+      // 示例查询点击
+      document.querySelectorAll(".example-item").forEach((item) => {
+        item.addEventListener("click", () => {
+          document.getElementById("searchInput").value = item.dataset.query;
+          performSearch();
         });
       });
 
@@ -756,7 +761,7 @@
       function addSortEventListeners() {
         const sortSelect = document.getElementById("sortSelect");
         const orderSelect = document.getElementById("orderSelect");
-
+        
         if (sortSelect) {
           sortSelect.addEventListener("change", () => {
             console.log("排序方式变化:", sortSelect.value);
@@ -765,7 +770,7 @@
             }
           });
         }
-
+        
         if (orderSelect) {
           orderSelect.addEventListener("change", () => {
             console.log("排序顺序变化:", orderSelect.value);
@@ -775,10 +780,10 @@
           });
         }
       }
-
+      
       // 确保DOM加载完成后绑定事件
-      if (document.readyState === "loading") {
-        document.addEventListener("DOMContentLoaded", addSortEventListeners);
+      if (document.readyState === 'loading') {
+        document.addEventListener('DOMContentLoaded', addSortEventListeners);
       } else {
         addSortEventListeners();
       }
@@ -967,10 +972,6 @@
 
         // 显示API状态
         updateApiStatus();
-
-        // 加载搜索示例
-        console.log("开始加载搜索示例...");
-        loadSearchExamples();
       });
 
       // 更新API状态显示
