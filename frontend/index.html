@@ -387,31 +387,8 @@
 
         <div class="example-queries">
           <h3>💡 搜索示例</h3>
-          <div class="example-list">
-            <div class="example-item" data-query="地落卡组的强力终端">
-              地落卡组的强力终端
-            </div>
-            <div class="example-item" data-query="绿色的生物卡">
-              绿色的生物卡
-            </div>
-            <div class="example-item" data-query="费用在3点以下的瞬间">
-              费用在3点以下的瞬间
-            </div>
-            <div class="example-item" data-query="力量大于4的红色生物">
-              力量大于4的红色生物
-            </div>
-            <div class="example-item" data-query="神器或结界卡">
-              神器或结界卡
-            </div>
-            <div class="example-item" data-query="稀有度神话的卡牌">
-              稀有度神话的卡牌
-            </div>
-            <div class="example-item" data-query="landfall finisher">
-              landfall finisher
-            </div>
-            <div class="example-item" data-query="red creatures with power 4+">
-              red creatures with power 4+
-            </div>
+          <div class="example-list" id="exampleList">
+            <div class="loading">加载示例中...</div>
           </div>
         </div>
       </div>
@@ -423,15 +400,59 @@
     </div>
 
     <script>
-             // 根据环境自动选择API地址
-       const API_BASE_URL = window.location.hostname === 'localhost' 
-         ? "http://localhost:8000" 
-         : "https://mtg-ai-backend.onrender.com";
+      // 根据环境自动选择API地址
+      const API_BASE_URL =
+        window.location.hostname === "localhost"
+          ? "http://localhost:8000"
+          : "https://mtg-ai-backend.onrender.com";
 
       let currentLanguage = "zh";
       let currentApiKey = null;
       let currentProvider = null;
       let currentModel = null;
+      let searchExamples = { zh: [], en: [] };
+
+      // 加载搜索示例
+      async function loadSearchExamples() {
+        try {
+          const response = await fetch(`${API_BASE_URL}/api/examples`);
+          if (response.ok) {
+            searchExamples = await response.json();
+            updateExamplesDisplay();
+          }
+        } catch (error) {
+          console.error("加载搜索示例失败:", error);
+        }
+      }
+
+      // 更新示例显示
+      function updateExamplesDisplay() {
+        const exampleList = document.getElementById("exampleList");
+        const examples = searchExamples[currentLanguage] || [];
+
+        if (examples.length === 0) {
+          exampleList.innerHTML = '<div class="loading">加载示例中...</div>';
+          return;
+        }
+
+        exampleList.innerHTML = examples
+          .map(
+            (example) => `
+            <div class="example-item" data-query="${example}">
+              ${example}
+            </div>
+          `
+          )
+          .join("");
+
+        // 重新绑定点击事件
+        document.querySelectorAll(".example-item").forEach((item) => {
+          item.addEventListener("click", () => {
+            document.getElementById("searchInput").value = item.dataset.query;
+            performSearch();
+          });
+        });
+      }
 
       // 语言切换
       document.querySelectorAll(".lang-btn").forEach((btn) => {
@@ -445,20 +466,17 @@
           // 更新输入框占位符
           const input = document.getElementById("searchInput");
           if (currentLanguage === "zh") {
-            input.placeholder = "例如：地落卡组的强力终端";
+            input.placeholder = "例如：绿色生物";
           } else {
-            input.placeholder = "例如：landfall finisher";
+            input.placeholder = "例如：green creatures";
           }
+
+          // 更新示例显示
+          updateExamplesDisplay();
         });
       });
 
-      // 示例查询点击
-      document.querySelectorAll(".example-item").forEach((item) => {
-        item.addEventListener("click", () => {
-          document.getElementById("searchInput").value = item.dataset.query;
-          performSearch();
-        });
-      });
+      // 示例查询点击事件在updateExamplesDisplay中绑定
 
       // 搜索按钮点击
       document
@@ -593,7 +611,9 @@
           alert(
             `当前使用: ${provider.toUpperCase()}\n模型: ${
               model || "默认"
-            }\nAPI密钥: ${apiKey.substring(0, 4)}****${apiKey.substring(apiKey.length - 4)}`
+            }\nAPI密钥: ${apiKey.substring(0, 4)}****${apiKey.substring(
+              apiKey.length - 4
+            )}`
           );
         } else {
           alert("当前使用演示模式，无需API密钥");
@@ -619,6 +639,9 @@
 
         // 显示API状态
         updateApiStatus();
+
+        // 加载搜索示例
+        loadSearchExamples();
       });
 
       // 更新API状态显示
