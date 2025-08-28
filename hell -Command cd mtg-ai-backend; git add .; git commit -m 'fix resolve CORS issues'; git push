@@ -1,0 +1,403 @@
+warning: in the working copy of 'README.md', LF will be replaced by CRLF the next time Git touches it
+[1mdiff --git a/README.md b/README.md[m
+[1mindex e455351..69baadb 100644[m
+[1m--- a/README.md[m
+[1m+++ b/README.md[m
+[36m@@ -27,11 +27,13 @@[m [mMTG-AIsearch/[m
+ ## 🛠️ Tech Stack[m
+ [m
+ ### Frontend[m
+[32m+[m
+ - HTML5 + CSS3 + JavaScript[m
+ - Responsive design[m
+ - Dark theme UI[m
+ [m
+ ### Backend[m
+[32m+[m
+ - Python FastAPI[m
+ - Scryfall API integration[m
+ - OpenAI/AIHubMix API support[m
+[36m@@ -39,12 +41,14 @@[m [mMTG-AIsearch/[m
+ ## 🔧 Local Development[m
+ [m
+ ### Frontend Development[m
+[32m+[m
+ ```bash[m
+ cd mtg-ai-frontend[m
+ # Frontend is static files, just open build/index.html[m
+ ```[m
+ [m
+ ### Backend Development[m
+[32m+[m
+ ```bash[m
+ cd mtg-ai-backend[m
+ pip install -r requirements.txt[m
+[36m@@ -54,12 +58,14 @@[m [muvicorn app.main:app --reload[m
+ ## 📖 Usage Examples[m
+ [m
+ ### Search Examples[m
+[32m+[m
+ - "green creatures" → Search for green creature cards[m
+ - "red burn spells" → Search for red damage spells[m
+ - "esper control" → Search for Esper color control cards[m
+ - "creatures with power 4+" → Search for creatures with power 4 or greater[m
+ [m
+ ### Sorting Features[m
+[32m+[m
+ - **By Name**: Alphabetical order[m
+ - **By Rarity**: Mythic → Rare → Uncommon → Common[m
+ - **By Mana Value**: Sort by mana cost[m
+[1mdiff --git a/backend/__init__.py b/backend/__init__.py[m
+[1mdeleted file mode 100644[m
+[1mindex 5215f95..0000000[m
+[1m--- a/backend/__init__.py[m
+[1m+++ /dev/null[m
+[36m@@ -1,4 +0,0 @@[m
+[31m-﻿# Initialize the backend package[m
+[31m-from .main import app[m
+[31m-[m
+[31m-__all__ = ["app"][m
+[1mdiff --git a/backend/main.py b/backend/main.py[m
+[1mdeleted file mode 100644[m
+[1mindex 398d2d8..0000000[m
+[1m--- a/backend/main.py[m
+[1m+++ /dev/null[m
+[36m@@ -1,1193 +0,0 @@[m
+[31m-﻿from fastapi import FastAPI, HTTPException[m
+[31m-from fastapi.middleware.cors import CORSMiddleware[m
+[31m-from pydantic import BaseModel[m
+[31m-import httpx[m
+[31m-import os[m
+[31m-import asyncio[m
+[31m-import random[m
+[31m-from typing import List, Optional[m
+[31m-from .preprocessor import preprocess_mtg_query, mtg_preprocessor[m
+[31m-[m
+[31m-app = FastAPI(title="MTG AI Search API", version="1.0.0")[m
+[31m-[m
+[31m-# CORS configuration[m
+[31m-app.add_middleware([m
+[31m-    CORSMiddleware,[m
+[31m-    allow_origins=["*"],[m
+[31m-    allow_credentials=True,[m
+[31m-    allow_methods=["*"],[m
+[31m-    allow_headers=["*"],[m
+[31m-)[m
+[31m-[m
+[31m-# 数据模型[m
+[31m-class SearchRequest(BaseModel):[m
+[31m-    query: str[m
+[31m-    language: str = "zh"[m
+[31m-    api_key: Optional[str] = None[m
+[31m-    model: Optional[str] = None[m
+[31m-    sort: Optional[str] = "name"  # 排序方式：name, set, released, rarity, color, cmc, power, toughness, edhrec, artist[m
+[31m-    order: Optional[str] = "asc"  # 排序顺序：asc, desc[m
+[31m-[m
+[31m-class Card(BaseModel):[m
+[31m-    name: str[m
+[31m-    mana_cost: Optional[str] = None[m
+[31m-    type_line: str[m
+[31m-    oracle_text: str[m
+[31m-    image_uris: Optional[dict] = None[m
+[31m-    scryfall_uri: str[m
+[31m-    rarity: Optional[str] = None[m
+[31m-[m
+[31m-class SearchResponse(BaseModel):[m
+[31m-    cards: List[Card][m
+[31m-    scryfall_query: str[m
+[31m-    total_cards: int[m
+[31m-    api_provider: Optional[str] = None[m
+[31m-[m
+[31m-class EdhrecService:[m
+[31m-    """EDHREC API服务"""[m
+[31m-    [m
+[31m-    def __init__(self):[m
+[31m-        self.base_url = "https://json.edhrec.com"[m
+[31m-        self.headers = {[m
+[31m-            "User-Agent": "MTG-AI-Search/1.0",[m
+[31m-            "Accept": "application/json"[m
+[31m-        }[m
+[31m-    [m
+[31m-    async def get_card_rating(self, card_name: str) -> Optional[float]:[m
+[31m-        """获取卡牌的EDHREC评分"""[m
+[31m-        try:[m
+[31m-            # 简化实现：暂时返回随机评分，避免API调用错误[m
+[31m-            # 在实际部署中，这里应该调用真正的EDHREC API[m
+[31m-            import random[m
+[31m-            return random.uniform(0.0, 10.0)[m
+[31m-                [m
+[31m-        except Exception as e:[m
+[31m-            print(f"EDHREC API error for {card_name}: {e}")[m
+[31m-            return 0.0[m
+[31m-    [m
+[31m-    async def get_cards_ratings(self, card_names: List[str]) -> dict:[m
+[31m-        """批量获取卡牌评分"""[m
+[31m-        ratings = {}[m
+[31m-        for card_name in card_names:[m
+[31m-            rating = await self.get_card_rating(card_name)[m
+[31m-            ratings[card_name] = rating or 0.0[m
+[31m-        return ratings[m
+[31m-[m
+[31m-@app.get("/")[m
+[31m-async def root():[m
+[31m-    return {"message": "MTG AI Search API is running"}[m
+[31m-[m
+[31m-@app.get("/health")[m
+[31m-async def health_check():[m
+[31m-    return {"status": "healthy"}[m
+[31m-[m
+[31m-@app.get("/api/examples")[m
+[31m-async def get_search_examples():[m
+[31m-    """获取搜索示例"""[m
+[31m-    examples = {[m
+[31m-        "zh": [[m
+[31m-            "绿色生物",[m
+[31m-            "红色瞬间", [m
+[31m-            "力量大于4的生物",[m
+[31m-            "神话稀有度",[m
+[31m-            "艾斯波控制",[m
+[31m-            "2/2熊",[m
+[31m-            "清场法术"[m
+[31m-        ],[m
+[31m-        "en": [[m
+[31m-            "green creatures",[m
+[31m-            "red instants",[m
+[31m-            "creatures with power 4+",[m
+[31m-            "mythic rarity",[m
+[31m-            "esper control",[m
+[31m-            "2/2 bears",[m
+[31m-            "board wipes"[m
+[31m-        ][m
+[31m-    }[m
+[31m-    return examples[m
+[31m-[m
+[31m-@app.get("/api/models")[m
+[31m-async def get_models():[m
+[31m-    """获取可用的模型列表"""[m
+[31m-    try:[m
+[31m-        # 尝试从环境变量获取 Aihubmix API Key[m
+[31m-        aihubmix_api_key = os.getenv("AIHUBMIX_API_KEY")[m
+[31m-        [m
+[31m-        if aihubmix_api_key:[m
+[31m-            # 如果有 API Key，调用 Aihubmix API 获取真实模型列表[m
+[31m-            async with httpx.AsyncClient() as client:[m
+[31m-                response = await client.get([m
+[31m-                    "https://aihubmix.com/v1/models",[m
+[31m-                    headers={[m
+[31m-                        "Authorization": f"Bearer {aihubmix_api_key}",[m
+[31m-                        "Content-Type": "application/json"[m
+[31m-                    },[m
+[31m-                    timeout=10.0[m
+[31m-                )[m
+[31m-                [m
+[31m-                if response.status_code == 200:[m
+[31m-                    data = response.json()[m
+[31m-                    # 转换 Aihubmix 格式为前端需要的格式[m
+[31m-                    models = [][m
+[31m-                    for model in data.get("data", []):[m
+[31m-                        models.append({[m
+[31m-                            "id": model.get("id"),[m
+[31m-                            "name": model.get("id"),  # 使用 id 作为显示名称[m
+[31m-                            "provider": "aihubmix"[m
+[31m-                        })[m
+[31m-                    [m
+[31m-                    return {[m
+[31m-                        "success": True,[m
+[31m-                        "models": models,[m
+[31m-                        "provider": "aihubmix",[m
+[31m-                        "message": "模型列表获取成功"[m
+[31m-                    }[m
+[31m-                else:[m
+[31m-                    print(f"Aihubmix API error: {response.status_code}")[m
+[31m-                    # 如果 API 调用失败，返回默认模型列表[m
+[31m-                    return get_default_models()[m
+[31m-        else:[m
+[31m-            # 如果没有 API Key，返回默认模型列表[m
+[31m-            return get_default_models()[m
+[31m-            [m
+[31m-    except Exception as e:[m
+[31m-        print(f"Error getting models: {e}")[m
+[31m-        # 发生错误时返回默认模型列表[m
+[31m-        return get_default_models()[m
+[31m-[m
+[31m-def get_default_models():[m
+[31m-    """返回默认的模型列表"""[m
+[31m-    default_models = [[m
+[31m-        {"id": "gpt-4o-mini", "name": "GPT-4o Mini", "provider": "aihubmix"},[m
+[31m-        {"id": "gpt-4o", "name": "GPT-4o", "provider": "aihubmix"},[m
+[31m-        {"id": "gpt-3.5-turbo", "name": "GPT-3.5 Turbo", "provider": "aihubmix"},[m
+[31m-        {"id": "claude-3-haiku", "name": "Claude 3 Haiku", "provider": "aihubmix"},[m
+[31m-        {"id": "claude-3-sonnet", "name": "Claude 3 Sonnet", "provider": "aihubmix"},[m
+[31m-        {"id": "gemini-pro", "name": "Gemini Pro", "provider": "aihubmix"}[m
+[31m-    ][m
+[31m-    [m
+[31m-    return {[m
+[31m-        "success": True,[m
+[31m-        "models": default_models,[m
+[31m-        "provider": "default",[m
+[31m-        "message": "使用默认模型列表"[m
+[31m-    }[m
+[31m-[m
+[31m-@app.post("/api/validate-key")[m
+[31m-async def validate_api_key():[m
+[31m-    """验证API密钥的端点"""[m
+[31m-    return {[m
+[31m-        "valid": True,[m
+[31m-        "provider": "aihubmix",[m
+[31m-        "model": "gpt-4o-mini",[m
+[31m-        "message": "API密钥验证成功"[m
+[31m-    }[m
+[31m-[m
+[31m-@app.post("/api/preprocess")[m
+[31m-async def preprocess_query(request: dict):[m
+[31m-    """预处理查询的端点"""[m
+[31m-    try:[m
+[31m-        query = request.get("query", "")[m
+[31m-        language = request.get("language", "zh")[m
+[31m-        [m
+[31m-        processed = preprocess_mtg_query(query, language)[m
+[31m-        [m
+[31m-        return {[m
+[31m-            "success": True,[m
+[31m-            "original": query,[m
+[31m-            "processed": processed,[m
+[31m-            "language": language[m
+[31m-        }[m
+[31m-    except Exception as e:[m
+[31m-        return {[m
+[31m-            "success": False,[m
+[31m-            "error": str(e)[m
+[31m-        }[m
+[31m-[m
+[31m-@app.get("/api/preprocess/examples")[m
+[31m-async def get_preprocess_examples():[m
+[31m-    """获取预处理示例"""[m
+[31m-    try:[m
+[31m-        examples = mtg_preprocessor.get_processed_examples()[m
+[31m-        return {[m
+[31m-            "success": True,[m
+[31m-            "examples": examples[m
+[31m-        }[m
+[31m-    except Exception as e:[m
+[31m-        return {[m
+[31m-            "success": False,[m
+[31m-            "error": str(e)[m
+[31m-        }[m
+[31m-[m
+[31m-class AIService:[m
+[31m-    def __init__(self):[m
+[31m-        self.openai_api_key = os.getenv("OPENAI_API_KEY")[m
+[31m-        self.aihubmix_api_key = os.getenv("AIHUBMIX_API_KEY")[m
+[31m-    [m
+[31m-    async def natural_language_to_scryfall(self, query: str, language: str = "zh", api_key: str = None, provider: str = "aihubmix", model: str = None) -> tuple[str, str]:[m
+[31m-        """将自然语言转换为Scryfall查询语法"""[m
+[31m-        [m
+[31m-        # 预处理用户输入[m
+[31m-        processed_query = preprocess_mtg_query(query, language)[m
+[31m-        print(f"原始查询: {query}")[m
+[31m-        print(f"预处理后: {processed_query}")[m
+[31m-        [m
+[31m-        # 中文提示词模板 - 基于Scryfall官方语法和MTG俚语[m
+[31m-        zh_prompt = f"""[m
+[31m-你是一个万智牌专家，请将用户的中文描述转换为Scryfall搜索语法。[m
+[31m-[m
+[31m-用户输入：{processed_query}[m
+[31m-[m
+[31m-请返回有效的Scryfall搜索语法，格式要求：[m
+[31m-1. 只返回搜索语法，不要其他解释[m
+[31m-2. 使用标准的Scryfall语法[m
+[31m-[m
+[31m-Scryfall官方搜索语法参考：[m
+[31m-[m
+[31m-颜色和颜色身份：[m
+[31m-- 优先使用ci=进行颜色搜索：ci:g(绿) ci:u(蓝) ci:r(红) ci:b(黑) ci:w(白) ci:rg(红绿) ci:uw(白蓝)[m
+[31m-- 使用c=进行法术力颜色搜索：c=g(绿色法术力) c=u(蓝色法术力) c=r(红色法术力) c=b(黑色法术力) c=w(白色法术力)[m
+[31m-- ci:colorless(无色) ci:multicolor(多色)[m
+[31m-- 公会名称：ci:azorius(阿佐里乌斯) ci:simic(西米克) ci:rakdos(拉铎斯)等[m
+[31m-- 三色组合：ci:bant(班特) ci:esper(艾斯波) ci:grixis(格利极斯)等[m
+[31m-[m
+[31m-卡牌类型：[m
+[31m-- t:creature(生物) t:instant(瞬间) t:sorcery(法术) t:artifact(神器) t:enchantment(结界) t:planeswalker(鹏洛客) t:land(地)[m
+[31m-- 支持部分词匹配：t:merfolk(人鱼) t:goblin(地精) t:legend(传奇)[m
+[31m-[m
+[31m-卡牌文字：[m
+[31m-- o:"关键词" (搜索卡牌文字中的关键词)[m
+[31m-- kw:flying(飞行) kw:haste(敏捷) kw:first strike(先攻)等关键词能力[m
+[31m-- 使用引号包围包含空格或标点的文本[m
+[31m-[m
+[31m-法力值：[m
+[31m-- mv<=3 (法力值小于等于3) mv>=5 (法力值大于等于5)[m
+[31m-- mv:even(偶数法力值) mv:odd(奇数法力值)[m
+[31m-- m:{{G}}{{U}} (具体法力符号) m:2WW (简写法力符号)[m
+[31m-[m
+[31m-力量/防御力/忠诚度：[m
+[31m-- pow>=4 (力量大于等于4) tou<=2 (防御力小于等于2)[m
+[31m-- pt>=6 (总力量防御力大于等于6)[m
+[31m-- loy=3 (起始忠诚度等于3)[m
+[31m-[m
+[31m-稀有度：[m
+[31m-- r:common(普通) r:uncommon(非普通) r:rare(稀有) r:mythic(神话) r:special(特殊) r:bonus(奖励)[m
+[31m-[m
+[31m-特殊卡片：[m
+[31m-- is:split(分体卡) is:transform(转化卡) is:meld(融合卡) is:dfc(双面卡)[m
+[31m-- is:spell(咒语) is:permanent(永久物) is:vanilla(白板生物) is:bear(2/2熊)[m
+[31m-[m
+[31m-万智牌俚语和术语理解：[m
+[31m-[m
+[31m-套牌类型：[m
+[31m-- aggro(快攻) → 低费用生物，快速攻击[m
+[31m-- control(控制) → 反击咒语，清场法术[m
+[31m-- combo(组合技) → 特殊组合效果[m
+[31m-- midrange(中速) → 中等费用生物[m
+[31m-- tempo(节奏) → 时间优势策略[m
+[31m-[m
+[31m-生物类型：[m
+[31m-- bear(熊) → 2/2生物，使用is:bear[m
+[31m-- dork(小兵) → 1/1或2/1生物[m
+[31m-- fatty(大生物) → 高费用大生物[m
+[31m-- hate bear(仇恨熊) → 2/2具有干扰能力的生物[m
+[31m-- vanilla(白板) → 无特殊能力的生物，使用is:vanilla[m
+[31m-[m
+[31m-关键词能力：[m
+[31m-- evasion(穿透) → 飞行、不可阻挡等能力[m
+[31m-- removal(去除) → 消灭、放逐等效果[m
+[31m-- cantrip(小咒语) → 抽一张牌的咒语[m
+[31m-- wrath(清场) → 消灭所有生物[m
+[31m-- burn(烧) → 直接伤害咒语[m
+[31m-[m
+[31m-特殊术语：[m
+[31m-- "dies to removal" → 容易被去除的生物[m
+[31m-- "bolt test" → 能否被闪电击消灭[m
+[31m-- "curve" → 法力曲线[m
+[31m-- "value" → 价值，多换一效果[m
+[31m-- "tempo" → 节奏优势[m
+[31m-[m
+[31m-组合条件：[m
+[31m-- 使用空格连接多个条件(AND逻辑)[m
+[31m-- 使用OR连接选择条件：t:goblin OR t:elf[m
+[31m-- 使用括号分组：(t:goblin OR t:elf) ci=r[m
+[31m-- 使用-否定条件：-t:creature (非生物)[m
+[31m-[m
+[31m-示例：[m
+[31m-- "绿色生物" → t:creature ci=g[m
+[31m-- "红色瞬间" → t:instant ci=r[m
+[31m-- "力量大于4的生物" → t:creature pow>=4[m
+[31m-- "神话稀有度" → r:mythic[m
+[31m-- "艾斯波控制" → ci=esper is:spell[m
+[31m-- "2/2熊" → is:bear[m
+[31m-- "清场法术" → (o:"destroy all" OR o:"exile all") t:sorcery[m
+[31m-"""[m
+[31m-[m
+[31m-        # 英文提示词模板 - 基于Scryfall官方语法和MTG俚语[m
+[31m-        en_prompt = f"""[m
+[31m-You are a Magic: The Gathering expert. Convert the user's description to Scryfall search syntax.[m
+[31m-[m
+[31m-User input: {processed_query}[m
+[31m-[m
+[31m-Return only the valid Scryfall search syntax without any explanation.[m
+[31m-[m
+[31m-Scryfall Official Search Syntax Reference:[m
+[31m-[m
+[31m-Colors and Color Identity:[m
+[31m-- Prefer ci= for color searches: ci:g(green) ci:u(blue) ci:r(red) ci:b(black) ci:w(white) ci:rg(red-green) ci:uw(white-blue)[m
+[31m-- Use c= for mana color searches: 

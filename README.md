@@ -27,11 +27,13 @@ MTG-AIsearch/
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - HTML5 + CSS3 + JavaScript
 - Responsive design
 - Dark theme UI
 
 ### Backend
+
 - Python FastAPI
 - Scryfall API integration
 - OpenAI/AIHubMix API support
@@ -39,12 +41,14 @@ MTG-AIsearch/
 ## 🔧 Local Development
 
 ### Frontend Development
+
 ```bash
 cd mtg-ai-frontend
 # Frontend is static files, just open build/index.html
 ```
 
 ### Backend Development
+
 ```bash
 cd mtg-ai-backend
 pip install -r requirements.txt
@@ -54,12 +58,14 @@ uvicorn app.main:app --reload
 ## 📖 Usage Examples
 
 ### Search Examples
+
 - "green creatures" → Search for green creature cards
 - "red burn spells" → Search for red damage spells
 - "esper control" → Search for Esper color control cards
 - "creatures with power 4+" → Search for creatures with power 4 or greater
 
 ### Sorting Features
+
 - **By Name**: Alphabetical order
 - **By Rarity**: Mythic → Rare → Uncommon → Common
 - **By Mana Value**: Sort by mana cost
